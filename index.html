@@ -19,12 +19,7 @@
     --mist: #5A6474;
     --accent: #FFD700;
     --accent2: #3A8DFF;
-    --accent-glow: rgba(255, 215, 0, 0.15);
-    --surface: rgba(13, 18, 34, 0.6);
-    --surface-solid: #0D1222;
     --hairline: rgba(255, 255, 255, 0.06);
-    --radius: 24px;
-    --radius-sm: 16px;
     --inset-top: env(safe-area-inset-top, 0px);
     --inset-bottom: env(safe-area-inset-bottom, 0px);
   }
@@ -45,311 +40,133 @@
 
   ::selection { background: rgba(255, 215, 0, 0.25); }
 
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--mist); border-radius: 3px; }
-
-  .ambient {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    overflow: hidden;
-  }
-
-  .ambient::before {
-    content: '';
-    position: absolute;
-    inset: -20%;
-    background:
-      radial-gradient(ellipse 60% 40% at 70% -10%, rgba(255, 215, 0, 0.06), transparent 60%),
-      radial-gradient(ellipse 50% 35% at 10% 20%, rgba(58, 141, 255, 0.06), transparent 60%),
-      radial-gradient(ellipse 40% 30% at 90% 80%, rgba(58, 141, 255, 0.05), transparent 60%),
-      radial-gradient(ellipse 35% 25% at 5% 90%, rgba(255, 215, 0, 0.04), transparent 60%);
-    animation: ambientShift 20s ease-in-out infinite alternate;
-  }
-
-  @keyframes ambientShift {
-    from { transform: translate(-1%, -1%) scale(1); }
-    to { transform: translate(1%, 1%) scale(1.02); }
-  }
-
-  .grain {
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    opacity: 0.03;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  }
-
   .screen {
     position: relative;
-    z-index: 2;
-    min-height: 100dvh;
-    display: grid;
-    grid-template-columns: 280px 1fr;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: calc(48px + var(--inset-top)) 24px calc(48px + var(--inset-bottom));
   }
 
-  .sidebar {
-    position: sticky;
-    top: 0;
-    height: 100dvh;
-    padding: calc(52px + var(--inset-top)) 24px 24px;
-    border-right: 0.5px solid var(--hairline);
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    overflow-y: auto;
+  .header {
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--hairline);
   }
 
-  .sidebar .brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 0 4px;
-  }
-
-  .sidebar .brand-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 14px;
-    color: #080D22;
-  }
-
-  .sidebar .brand-name {
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-  }
-
-  .sidebar .brand-version {
-    font-size: 11px;
-    color: var(--dim);
-    font-family: var(--font-mono);
-    margin-top: 1px;
-  }
-
-  .toc {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .toc-label {
+  .header .label {
     font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--mist);
-    padding: 0 4px 8px;
-  }
-
-  .toc a {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 12px;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--dim);
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-
-  .toc a:hover {
-    color: var(--text);
-    background: rgba(255, 255, 255, 0.03);
-  }
-
-  .toc a.active {
-    color: var(--accent);
-    background: var(--accent-glow);
-  }
-
-  .toc a .num {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--mist);
-    min-width: 20px;
-  }
-
-  .toc a.active .num { color: var(--accent); }
-
-  .sidebar-footer {
-    margin-top: auto;
-    padding-top: 16px;
-    border-top: 0.5px solid var(--hairline);
-  }
-
-  .sidebar-footer span {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--mist);
-    padding: 0 4px 8px;
-    display: block;
-  }
-
-  .main {
-    padding: calc(52px + var(--inset-top)) 48px calc(40px + var(--inset-bottom));
-    max-width: 720px;
-  }
-
-  .lede { margin-bottom: 48px; }
-
-  .lede .kicker {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 2px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
     text-transform: uppercase;
     color: var(--accent);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .lede .kicker::before {
-    content: '';
-    width: 20px;
-    height: 1px;
-    background: var(--accent);
-  }
-
-  .lede h1 {
-    font-family: var(--font-serif);
-    font-size: 56px;
-    font-weight: 500;
-    letter-spacing: -1.5px;
-    line-height: 1.05;
-    margin-bottom: 20px;
-  }
-
-  .lede h1 em {
-    font-style: italic;
-    background: linear-gradient(100deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .lede .intro {
-    font-family: var(--font-serif);
-    font-size: 19px;
-    line-height: 1.7;
-    color: var(--sub);
-    max-width: 52ch;
     margin-bottom: 12px;
   }
 
-  .lede .meta {
-    margin-top: 24px;
-    padding-top: 20px;
-    border-top: 0.5px solid var(--hairline);
-    display: flex;
-    gap: 32px;
-    flex-wrap: wrap;
+  .header h1 {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    font-weight: 500;
+    letter-spacing: -0.8px;
+    line-height: 1.15;
+    margin-bottom: 16px;
   }
 
-  .lede .meta-item {
+  .header .meta {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 6px;
   }
 
-  .lede .meta-label {
-    font-size: 10px;
+  .header .meta p {
+    font-size: 13px;
+    color: var(--dim);
+    line-height: 1.5;
+  }
+
+  .header .meta b {
+    color: var(--sub);
     font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--mist);
   }
 
-  .lede .meta-value {
-    font-size: 14px;
-    font-weight: 500;
+  .header .summary {
+    margin-top: 16px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: rgba(255, 215, 0, 0.06);
+    border: 1px solid rgba(255, 215, 0, 0.12);
+    font-size: 13px;
+    line-height: 1.6;
     color: var(--sub);
   }
 
-  .section {
-    margin-bottom: 48px;
-    padding-top: 32px;
-    border-top: 0.5px solid var(--hairline);
-    opacity: 0;
-    transform: translateY(16px);
+  .header .summary b {
+    color: var(--accent);
+    font-weight: 600;
   }
 
-  .section.reveal { animation: secIn 0.7s cubic-bezier(0.22, 0.9, 0.28, 1) forwards; }
-
-  @keyframes secIn {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: none; }
+  .section {
+    margin-bottom: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--hairline);
   }
 
   .section-header {
     display: flex;
-    align-items: baseline;
-    gap: 16px;
-    margin-bottom: 20px;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
   }
 
   .section-num {
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 500;
     color: var(--accent);
-    padding: 4px 10px;
-    border-radius: 6px;
-    background: var(--accent-glow);
-    border: 0.5px solid rgba(255, 215, 0, 0.2);
+    padding: 2px 8px;
+    border-radius: 5px;
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.15);
   }
 
   .section-title {
-    font-size: 24px;
+    font-size: 17px;
     font-weight: 700;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.2px;
   }
 
   .section p {
-    font-size: 16px;
-    line-height: 1.75;
+    font-size: 14px;
+    line-height: 1.7;
     color: var(--sub);
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
 
   .section p:last-child { margin-bottom: 0; }
   .section b { color: var(--text); font-weight: 600; }
 
-  .section ul { list-style: none; margin: 16px 0; }
+  .section ul {
+    list-style: none;
+    margin: 12px 0;
+  }
 
   .section li {
     position: relative;
-    font-size: 16px;
-    line-height: 1.7;
+    font-size: 14px;
+    line-height: 1.65;
     color: var(--sub);
-    padding: 8px 0 8px 28px;
-    margin-bottom: 4px;
+    padding: 5px 0 5px 20px;
+    margin-bottom: 2px;
   }
 
   .section li::before {
     content: '';
     position: absolute;
-    left: 4px;
-    top: 18px;
-    width: 6px;
-    height: 6px;
+    left: 2px;
+    top: 14px;
+    width: 4px;
+    height: 4px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    box-shadow: 0 0 8px rgba(255, 215, 0, 0.35);
+    background: var(--accent);
   }
 
   .section li b { color: var(--text); }
@@ -357,281 +174,146 @@
   a { color: var(--accent); text-decoration: none; font-weight: 500; }
   a:hover { text-decoration: underline; }
 
-  .seal {
-    margin-top: 64px;
-    padding: 48px 32px;
-    border-radius: var(--radius);
-    background: linear-gradient(140deg, rgba(255, 215, 0, 0.06), rgba(58, 141, 255, 0.04));
-    border: 0.5px solid rgba(255, 215, 0, 0.15);
-    text-align: center;
-  }
-
-  .seal .glyph {
-    width: 64px;
-    height: 64px;
-    margin: 0 auto 20px;
-    border-radius: 20px;
+  .footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--hairline);
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    background: linear-gradient(140deg, rgba(255, 215, 0, 0.15), rgba(58, 141, 255, 0.12));
-    border: 1px solid rgba(255, 215, 0, 0.25);
-    box-shadow: 0 8px 32px rgba(255, 215, 0, 0.12);
-    color: var(--accent);
   }
 
-  .seal p {
-    font-family: var(--font-serif);
-    font-size: 18px;
-    line-height: 1.6;
-    color: var(--dim);
-    max-width: 40ch;
-    margin: 0 auto;
-  }
-
-  .seal .pink { color: var(--accent); font-weight: 600; }
-
-  @media (max-width: 900px) {
-    .screen { grid-template-columns: 1fr; }
-    .sidebar {
-      position: fixed;
-      left: 0; right: 0; top: 0;
-      height: auto;
-      padding: calc(12px + var(--inset-top)) 16px 12px;
-      background: rgba(8, 13, 34, 0.9);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-right: none;
-      border-bottom: 0.5px solid var(--hairline);
-      z-index: 100;
-    }
-    .sidebar .brand { padding: 0; }
-    .sidebar .toc, .sidebar-footer { display: none; }
-    .main {
-      padding: calc(80px + var(--inset-top)) 24px calc(40px + var(--inset-bottom));
-    }
-    .lede h1 { font-size: 40px; }
+  .footer p {
+    font-size: 11px;
+    color: var(--mist);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .ambient::before { animation: none; }
-    .section { opacity: 1; transform: none; }
+    * { animation: none; transition: none; }
   }
 </style>
 </head>
 <body>
-<div class="ambient" aria-hidden="true"></div>
-<div class="grain" aria-hidden="true"></div>
 
 <div class="screen">
-  <aside class="sidebar">
-    <div class="brand">
-      <div class="brand-icon">P</div>
-      <div>
-        <div class="brand-name">Pixel Space Dodge</div>
-        <div class="brand-version">Privacy Policy</div>
-      </div>
+  <div class="header">
+    <div class="label">Privacy Policy</div>
+    <h1>Pixel Space Dodge</h1>
+    <div class="meta">
+      <p>App: <b>Pixel Space Dodge</b> · Package: <b>com.retrospace.app</b></p>
+      <p>Developer: <b>QuranGen Labs</b> · Contact: <b>qurangen.us@gmail.com</b></p>
+      <p>Last updated: <b>September 23, 2026</b></p>
     </div>
-    <nav class="toc">
-      <div class="toc-label">Contents</div>
-      <a href="#s1" class="active"><span class="num">01</span>Information We Collect</a>
-      <a href="#s2"><span class="num">02</span>Advertising</a>
-      <a href="#s3"><span class="num">03</span>Opt-Out & Choices</a>
-      <a href="#s4"><span class="num">04</span>Children's Privacy</a>
-      <a href="#s5"><span class="num">05</span>Your Privacy Rights</a>
-      <a href="#s6"><span class="num">06</span>Data Security</a>
-      <a href="#s7"><span class="num">07</span>Third-Party Links</a>
-      <a href="#s8"><span class="num">08</span>Changes to This Policy</a>
-      <a href="#s9"><span class="num">09</span>Contact Us</a>
-    </nav>
-    <div class="sidebar-footer">
-      <span>RetroSpace</span>
+    <div class="summary">
+      <b>In short:</b> We do not collect, store, or sell any personal data ourselves. Your game progress is saved only on your own device. Third-party advertising partners (Google AdMob) may collect limited data to serve ads.
     </div>
-  </aside>
+  </div>
 
-  <main class="main">
-    <div class="lede">
-      <div class="kicker">Privacy Policy</div>
-      <h1>Pixel Space Dodge</h1>
-      <p class="intro">App name: <b>Pixel Space Dodge</b> · Package: <b>com.retrospace.app</b></p>
-      <p class="intro">Developer: <b>RetroSpace</b> · Contact: <b>qurangen.us@gmail.com</b></p>
-      <p class="intro">Last updated: September 23, 2026</p>
-      <p class="intro">This Privacy Policy explains how <b>Pixel Space Dodge</b> (the "App", "we", "us") handles information when you use our game. We are committed to protecting your privacy. Please read this policy carefully.</p>
-      <p class="intro"><b>In short:</b> We do not collect, store, or sell any personal data ourselves. Your game progress is saved only on your own device. Third-party advertising partners (Google AdMob) may collect limited data to serve ads. Details below.</p>
-      <div class="meta">
-        <div class="meta-item">
-          <span class="meta-label">Version</span>
-          <span class="meta-value">v2.0.0</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Developer</span>
-          <span class="meta-value">RetroSpace</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Last Updated</span>
-          <span class="meta-value">September 23, 2026</span>
-        </div>
-      </div>
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Information We Collect</h2>
     </div>
+    <p>Pixel Space Dodge itself does <b>not</b> collect any personal information. We have no accounts, no servers, and no analytics of our own.</p>
+    <p><b>Data Stored on Your Device (Local Only)</b></p>
+    <ul>
+      <li><b>Game save data</b> — progress, unlocked ships, coins, XP, achievements, and statistics.</li>
+      <li><b>Settings</b> — sound, vibration, screen shake, and particle preferences.</li>
+      <li><b>Purchase status</b> — a flag recording whether Remove Ads or coin packs were purchased.</li>
+    </ul>
+    <p>This data <b>never leaves your device</b> and is <b>not</b> transmitted to us or any server.</p>
+    <p>You can erase it at any time by clearing the app's data or uninstalling the App.</p>
+  </section>
 
-    <section class="section" id="s1">
-      <div class="section-header">
-        <span class="section-num">01</span>
-        <h2 class="section-title">Information We Collect</h2>
-      </div>
-      <p>Pixel Space Dodge itself does <b>not</b> collect any personal information. We have no accounts, no servers, and no analytics of our own.</p>
-      <p><b>Data Stored on Your Device (Local Only)</b></p>
-      <ul>
-        <li><b>Game save data</b> — your progress, unlocked ships, coins, XP, achievements, and statistics are stored locally on your device.</li>
-        <li><b>Settings</b> — sound, vibration, screen shake, and particle preferences.</li>
-        <li><b>Purchase status</b> — a flag recording whether Remove Ads or coin packs were purchased.</li>
-      </ul>
-      <p>This data <b>never leaves your device</b> and is <b>not</b> transmitted to us or any server.</p>
-      <p>You can erase it at any time by clearing the app's data or uninstalling the App.</p>
-    </section>
-
-    <section class="section" id="s2">
-      <div class="section-header">
-        <span class="section-num">02</span>
-        <h2 class="section-title">Advertising (Google AdMob)</h2>
-      </div>
-      <p>The App is supported by advertising served by <b>Google AdMob</b> (Google Mobile Ads SDK). Google, as our advertising partner, may collect certain information to measure ad performance and to serve relevant ads, including:</p>
-      <ul>
-        <li><b>Advertising ID</b> — a unique identifier Google resets on your device, used to personalize ads and measure performance.</li>
-        <li><b>Device information</b> — device model, operating system version, screen size, and language.</li>
-        <li><b>IP address</b> — used for general location (such as country-level) and fraud prevention.</li>
-        <li><b>App usage data</b> — app opens, ad impressions, and diagnostic/crash data.</li>
-      </ul>
-      <p>Google's processing of this data is governed by Google's own policies and terms:</p>
-      <ul>
-        <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a></li>
-        <li><a href="https://www.google.com/policies/privacy/partners/" target="_blank" rel="noopener">How Google uses data when you use our partners' sites or apps</a></li>
-        <li><a href="https://support.google.com/admob/answer/6128543" target="_blank" rel="noopener">Google AdMob: Personalized Ads</a></li>
-      </ul>
-    </section>
-
-    <section class="section" id="s3">
-      <div class="section-header">
-        <span class="section-num">03</span>
-        <h2 class="section-title">Opt-Out & Choices</h2>
-      </div>
-      <ul>
-        <li><b>Ads personalization:</b> You can opt out of personalized ads. On Android, go to <i>Settings → Privacy → Ads → Delete advertising ID / reset ID</i>, or follow <a href="https://support.google.com/ads/answer/2662922" target="_blank" rel="noopener">Google's ads personalization controls</a>.</li>
-        <li><b>European Users (EEA/UK):</b> If located in the European Economic Area, the UK, or Switzerland, you will be asked to give or deny consent for personalized advertising before ads are shown, as required by the GDPR. You can change your choice at any time in the app.</li>
-        <li><b>Remove Ads:</b> A one-time in-app purchase removes all advertising permanently.</li>
-        <li><b>Limit Ad Tracking</b> settings on your device are respected by our ad partner.</li>
-      </ul>
-    </section>
-
-    <section class="section" id="s4">
-      <div class="section-header">
-        <span class="section-num">04</span>
-        <h2 class="section-title">Children's Privacy (COPPA)</h2>
-      </div>
-      <p>We care about children's privacy. If the game is played by children under 13, the App is configured to show only <b>non-personalized ads</b> to audiences of these users, and no advertising ID data is used for behavioral advertising toward them. If you believe a child has provided personal information, contact us and we will delete it.</p>
-    </section>
-
-    <section class="section" id="s5">
-      <div class="section-header">
-        <span class="section-num">05</span>
-        <h2 class="section-title">Your Privacy Rights (GDPR & CCPA)</h2>
-      </div>
-      <ul>
-        <li><b>GDPR (Europe):</b> You have the right to access, correct, export, or delete your personal data, and to withdraw consent at any time. Contact us below.</li>
-        <li><b>CCPA (California):</b> You have the right to know what personal information is collected, to delete it, and to opt out of the "sale" of personal information. We do <b>not</b> sell personal data.</li>
-        <li>Because we store no personal data ourselves, these rights are applied in full by simply uninstalling or clearing app data, or by using the ad opt-out controls in Section 3.</li>
-      </ul>
-    </section>
-
-    <section class="section" id="s6">
-      <div class="section-header">
-        <span class="section-num">06</span>
-        <h2 class="section-title">Data Security</h2>
-      </div>
-      <p>We do not store your data on our servers, so there is no central database to compromise. Game save data remains on your device, protected by your device's own security. Ad data is handled and protected by Google's security measures.</p>
-    </section>
-
-    <section class="section" id="s7">
-      <div class="section-header">
-        <span class="section-num">07</span>
-        <h2 class="section-title">Third-Party Links</h2>
-      </div>
-      <p>Ads shown in the App may link to third-party websites or apps. We are not responsible for the privacy practices of those third parties. We encourage you to review their privacy policies.</p>
-    </section>
-
-    <section class="section" id="s8">
-      <div class="section-header">
-        <span class="section-num">08</span>
-        <h2 class="section-title">Changes to This Policy</h2>
-      </div>
-      <p>We may update this Privacy Policy from time to time. When we do, the "Last updated" date at the top will change. Material changes will be announced within the App or on our store listing. Continued use of the App after changes means you accept the updated policy.</p>
-    </section>
-
-    <section class="section" id="s9">
-      <div class="section-header">
-        <span class="section-num">09</span>
-        <h2 class="section-title">Contact Us</h2>
-      </div>
-      <p>If you have any questions about this Privacy Policy or your data, contact us at:</p>
-      <ul>
-        <li>Email: <b>qurangen.us@gmail.com</b></li>
-        <li>Developer: RetroSpace</li>
-      </ul>
-      <p style="margin-top:24px;font-size:13px;color:var(--mist)">© 2026 RetroSpace. All rights reserved.</p>
-    </section>
-
-    <div class="seal">
-      <div class="glyph">
-        <svg width="28" height="28" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="21" fill="rgba(8,13,34,.4)"/><path d="M24 12c-6 0-11 4-11 11 0 5 3.4 9.4 8.5 10.7V28a2 2 0 0 1 2-2h1v-2.5a2 2 0 0 1 4 0V26h1a2 2 0 0 1 2 2v5.7c5.1-1.3 8.5-5.7 8.5-10.7 0-7-5-11-11-11Z" fill="currentColor"/><path d="M20 24.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm8 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z" fill="#080D22"/></svg>
-      </div>
-      <p>Local-first. No account by default, <span class="pink">no data sold — ever.</span></p>
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Advertising (Google AdMob)</h2>
     </div>
-  </main>
+    <p>The App is supported by advertising served by <b>Google AdMob</b>. Google may collect certain information to measure ad performance and serve relevant ads:</p>
+    <ul>
+      <li><b>Advertising ID</b> — a resettable identifier used to personalize ads and measure performance.</li>
+      <li><b>Device information</b> — device model, OS version, screen size, and language.</li>
+      <li><b>IP address</b> — used for general location and fraud prevention.</li>
+      <li><b>App usage data</b> — app opens, ad impressions, and diagnostic data.</li>
+    </ul>
+    <p>Google's processing is governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Opt-Out & Choices</h2>
+    </div>
+    <ul>
+      <li><b>Ads personalization:</b> Opt out via <i>Settings → Privacy → Ads → Delete advertising ID</i> or <a href="https://support.google.com/ads/answer/2662922" target="_blank" rel="noopener">Google's ads controls</a>.</li>
+      <li><b>European Users (EEA/UK):</b> Consent for personalized advertising is requested before ads are shown, as required by GDPR.</li>
+      <li><b>Remove Ads:</b> A one-time in-app purchase removes all advertising permanently.</li>
+      <li><b>Limit Ad Tracking</b> settings on your device are respected.</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Children's Privacy (COPPA)</h2>
+    </div>
+    <p>If the game is played by children under 13, only <b>non-personalized ads</b> are shown. No advertising ID data is used for behavioral advertising toward them. If you believe a child has provided personal information, contact us and we will delete it.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Your Privacy Rights (GDPR & CCPA)</h2>
+    </div>
+    <ul>
+      <li><b>GDPR (Europe):</b> Right to access, correct, export, or delete your personal data, and to withdraw consent at any time.</li>
+      <li><b>CCPA (California):</b> Right to know what is collected, to delete it, and to opt out of the "sale" of personal information. We do <b>not</b> sell personal data.</li>
+      <li>Because we store no personal data ourselves, these rights are applied in full by uninstalling or clearing app data.</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">Data Security</h2>
+    </div>
+    <p>We do not store your data on our servers. Game save data remains on your device, protected by your device's own security. Ad data is handled and protected by Google's security measures.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2 class="section-title">Third-Party Links</h2>
+    </div>
+    <p>Ads shown in the App may link to third-party websites or apps. We are not responsible for the privacy practices of those third parties.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <h2 class="section-title">Changes to This Policy</h2>
+    </div>
+    <p>We may update this Privacy Policy from time to time. The "Last updated" date will change. Material changes will be announced within the App or on our store listing.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <h2 class="section-title">Contact Us</h2>
+    </div>
+    <p>For questions about this Privacy Policy or your data:</p>
+    <ul>
+      <li>Email: <b>qurangen.us@gmail.com</b></li>
+      <li>Developer: <b>QuranGen Labs</b></li>
+    </ul>
+  </section>
+
+  <div class="footer">
+    <p>© 2026 QuranGen Labs</p>
+    <p>com.retrospace.app</p>
+  </div>
 </div>
 
-<script>
-  (function(){
-    "use strict";
-
-    var sections = document.querySelectorAll(".section");
-    if("IntersectionObserver" in window){
-      var io = new IntersectionObserver(function(entries){
-        entries.forEach(function(e){
-          if(e.isIntersecting){
-            e.target.classList.add("reveal");
-            io.unobserve(e.target);
-          }
-        });
-      }, {rootMargin:"0px 0px -8% 0px", threshold:.06});
-      sections.forEach(function(s){ io.observe(s); });
-    } else {
-      sections.forEach(function(s){ s.classList.add("reveal"); });
-    }
-
-    var tocLinks = document.querySelectorAll(".toc a");
-    if("IntersectionObserver" in window && tocLinks.length){
-      var tocIO = new IntersectionObserver(function(entries){
-        entries.forEach(function(e){
-          if(e.isIntersecting){
-            tocLinks.forEach(function(a){ a.classList.remove("active"); });
-            var id = e.target.getAttribute("id");
-            var active = document.querySelector('.toc a[href="#' + id + '"]');
-            if(active) active.classList.add("active");
-          }
-        });
-      }, {rootMargin:"-20% 0px -70% 0px", threshold:0});
-      sections.forEach(function(s){ tocIO.observe(s); });
-    }
-
-    tocLinks.forEach(function(a){
-      a.addEventListener("click", function(e){
-        e.preventDefault();
-        var id = a.getAttribute("href").slice(1);
-        var target = document.getElementById(id);
-        if(target) target.scrollIntoView({behavior:"smooth", block:"start"});
-      });
-    });
-  })();
-</script>
 </body>
 </html>
